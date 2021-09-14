@@ -9,8 +9,8 @@ import json
 from collections import OrderedDict
 
 LOGIN_INFO = {
-    'ID' : 'mmnani',
-    'PASSWORD' : "Mjoh!031223@"
+    'ID' : 'your naver ID',
+    'PASSWORD' : "your naver password"
 }
 
 delay=3
