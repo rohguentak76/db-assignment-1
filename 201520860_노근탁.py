@@ -10,7 +10,7 @@ from collections import OrderedDict
 
 LOGIN_INFO = {
     'ID' : 'your naver ID',
-    'PASSWORD' : "your naver password"
+    'PASSWORD' : "your naver PASSWORD"
 }
 
 delay=3
@@ -19,10 +19,13 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome(executable_path='./chromedriver',options=chrome_options)
 
-def crawler(target_url):
+def crawler(target_url,html_file):
     driver = webdriver.Chrome(executable_path='./chromedriver',options=chrome_options)
     driver.get(target_url)
-    bsObject = BeautifulSoup(driver.page_source, "html.parser")    
+    bsObject = BeautifulSoup(driver.page_source, "html.parser")
+    file = open(html_file,"w")
+    file.write(str(bsObject))
+    file.close()    
     webtoonInfoDivs = bsObject.find_all("div",{"class":"challengeInfo"})
     for webtoonInfoDiv in webtoonInfoDivs:
         title = webtoonInfoDiv.find("a").text.strip()
@@ -44,7 +47,8 @@ def main():
     nav_login = "https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com"
     for page in range(start_page,end_page + 1):
         target_url = f"https://comic.naver.com/genre/challenge?&page={page}"
-        crawler(target_url)
+        html_file = f"{page}.html"
+        crawler(target_url,html_file)
     
 
 if __name__ == "__main__":
